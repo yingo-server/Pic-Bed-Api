@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>随机图片 API 文档</title>
   <style>
-    /* 极简风格，参考 quote.344977.xyz */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -131,6 +130,8 @@
       border: 1px dashed #ccc;
       border-radius: 3px;
       min-height: 2.2rem;
+      max-height: 300px;
+      overflow-y: auto;
       font-family: "SF Mono", "Menlo", "Consolas", monospace;
       font-size: 0.85rem;
       white-space: pre-wrap;
@@ -255,7 +256,8 @@
   </div>
 
   <footer>
-    <p>图片存放在项目根目录的 ppic/（电脑）和 mpic/（手机）中，随机返回。</p>
+    <p>图片存放在 public/ppic/（电脑）和 public/mpic/（手机）中，随机返回。</p>
+    <p>源链接返回完整绝对 URL，可直接访问图片。</p>
   </footer>
 </div>
 
@@ -277,7 +279,6 @@
             return res.text();
           })
           .then(function(text) {
-            // 纯文本显示，不渲染为图片
             resultArea.textContent = text;
           })
           .catch(function(err) {
