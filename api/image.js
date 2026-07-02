@@ -28,6 +28,7 @@ export default async function handler(req, res) {
     folder = folders[Math.floor(Math.random() * folders.length)];
   }
 
+  // 图片目录在 public 下
   const imageDir = path.join(process.cwd(), 'public', folder);
 
   let files;
