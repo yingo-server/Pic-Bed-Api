@@ -28,13 +28,13 @@ export default async function handler(req, res) {
     folder = folders[Math.floor(Math.random() * folders.length)];
   }
 
-  const imageDir = path.join(process.cwd(), folder);
+  const imageDir = path.join(process.cwd(), 'public', folder);
 
   let files;
   try {
     files = fs.readdirSync(imageDir);
   } catch (_) {
-    return res.status(500).send(`图片目录不存在: ${folder}`);
+    return res.status(500).send(`图片目录不存在: public/${folder}，请确认该目录存在。`);
   }
 
   const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp', '.avif'];
@@ -43,13 +43,16 @@ export default async function handler(req, res) {
   );
 
   if (imageFiles.length === 0) {
-    return res.status(404).send(`目录 ${folder} 中没有图片文件`);
+    return res.status(404).send(`目录 public/${folder} 中没有图片文件（支持格式：png/jpg/jpeg/gif/webp/bmp/avif）。`);
   }
 
   const randomFile = imageFiles[Math.floor(Math.random() * imageFiles.length)];
 
   if (format === 'url') {
-    const absoluteUrl = `https://img.344977.xyz/${folder}/${randomFile}`;
+    // 构造完整绝对 URL
+    const protocol = req.headers['x-forwarded-proto'] || 'https';
+    const host = req.headers.host;
+    const absoluteUrl = `${protocol}://${host}/${folder}/${randomFile}`;
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     return res.send(absoluteUrl);
   } else {
